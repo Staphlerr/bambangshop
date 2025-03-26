@@ -65,11 +65,11 @@ You can install Postman via this website: https://www.postman.com/downloads/
     -   [x] Commit: `Implement unsubscribe function in Notification controller.`
     -   [x] Write answers of your learning module's "Reflection Publisher-2" questions in this README.
 -   **STAGE 3: Implement notification mechanism**
-    -   [ ] Commit: `Implement update method in Subscriber model to send notification HTTP requests.`
-    -   [ ] Commit: `Implement notify function in Notification service to notify each Subscriber.`
-    -   [ ] Commit: `Implement publish function in Program service and Program controller.`
-    -   [ ] Commit: `Edit Product service methods to call notify after create/delete.`
-    -   [ ] Write answers of your learning module's "Reflection Publisher-3" questions in this README.
+    -   [x] Commit: `Implement update method in Subscriber model to send notification HTTP requests.`
+    -   [x] Commit: `Implement notify function in Notification service to notify each Subscriber.`
+    -   [x] Commit: `Implement publish function in Program service and Program controller.`
+    -   [x] Commit: `Edit Product service methods to call notify after create/delete.`
+    -   [x] Write answers of your learning module's "Reflection Publisher-3" questions in this README.
 
 ## Your Reflections
 This is the place for you to write reflections:
@@ -125,8 +125,28 @@ This is the place for you to write reflections:
 
 3. **Exploring Postman and Its Features**
 
-   Postman has been an invaluable tool for testing REST APIs in this project. It simplifies sending HTTP requests, allowing me to quickly test endpoints like /subscribe and /unsubscribe. Features like environment variables make it easy to manage configurations (e.g., base URLs), while collections help organize related requests for better workflow management. Automated scripts in Postman are particularly useful for validating responses and ensuring the API behaves as expected.
+    Postman has been an invaluable tool for testing REST APIs in this project. It simplifies sending HTTP requests, allowing me to quickly test endpoints like /subscribe and /unsubscribe. Features like environment variables make it easy to manage configurations (e.g., base URLs), while collections help organize related requests for better workflow management. Automated scripts in Postman are particularly useful for validating responses and ensuring the API behaves as expected.
 
     For group projects, Postman’s collaboration features, such as shared collections and workspaces, streamline teamwork by ensuring everyone uses the same test cases. I’m also interested in advanced features like mock servers for simulating API responses during frontend development and API documentation for communicating endpoint details with stakeholders. These tools will be helpful for future software engineering projects, enabling efficient API development and testing.
 
 #### Reflection Publisher-3
+
+1. **Which Variation of Observer Pattern Do We Use?**
+
+    We use the Push model of the Observer Pattern, where the publisher sends notifications directly to subscribers via HTTP POST requests. This approach ensures real-time updates and simplifies the communication flow, as subscribers don’t need to request data manually. The Push model works well for this case because it avoids the inefficiency of polling and ensures timely delivery of product-related events (e.g., creation, promotion, deletion).
+
+    However, the Push model assumes that subscribers are always available. If a subscriber is unreachable, notifications may fail, requiring additional error handling or retry mechanisms.
+
+
+2. **Advantages and Disadvantages of Using the Pull Model**
+   
+    The Pull model would require subscribers to periodically fetch updates from the publisher. While this gives subscribers control over when to check for updates, it introduces inefficiency, as they may repeatedly poll without receiving new data. It also increases latency, as updates are not delivered in real-time.
+
+    For this tutorial, the Pull model would complicate the system by shifting the responsibility of tracking changes to subscribers. They would need to maintain state or timestamps to identify new updates, making the system less responsive and harder to manage compared to the Push model.
+
+
+3. **What Happens Without Multi-Threading in the Notification Process?**
+
+    Without multi-threading, notifications would be sent sequentially, one subscriber at a time. This would slow down the process, especially if one subscriber’s URL is slow or unresponsive, blocking updates to others. As the number of subscribers grows, the system would become a bottleneck, reducing scalability and responsiveness.
+
+    Multi-threading allows notifications to be sent concurrently, improving performance and ensuring timely updates. Removing it would simplify the code but severely impact the system’s ability to handle concurrent requests efficiently, making it unsuitable for real-world applications.
