@@ -58,12 +58,12 @@ You can install Postman via this website: https://www.postman.com/downloads/
     -   [x] Commit: `Implement delete function in Subscriber repository.`
     -   [x] Write answers of your learning module's "Reflection Publisher-1" questions in this README.
 -   **STAGE 2: Implement services and controllers**
-    -   [ ] Commit: `Create Notification service struct skeleton.`
-    -   [ ] Commit: `Implement subscribe function in Notification service.`
-    -   [ ] Commit: `Implement subscribe function in Notification controller.`
-    -   [ ] Commit: `Implement unsubscribe function in Notification service.`
-    -   [ ] Commit: `Implement unsubscribe function in Notification controller.`
-    -   [ ] Write answers of your learning module's "Reflection Publisher-2" questions in this README.
+    -   [x] Commit: `Create Notification service struct skeleton.`
+    -   [x] Commit: `Implement subscribe function in Notification service.`
+    -   [x] Commit: `Implement subscribe function in Notification controller.`
+    -   [x] Commit: `Implement unsubscribe function in Notification service.`
+    -   [x] Commit: `Implement unsubscribe function in Notification controller.`
+    -   [x] Write answers of your learning module's "Reflection Publisher-2" questions in this README.
 -   **STAGE 3: Implement notification mechanism**
     -   [ ] Commit: `Implement update method in Subscriber model to send notification HTTP requests.`
     -   [ ] Commit: `Implement notify function in Notification service to notify each Subscriber.`
@@ -80,33 +80,53 @@ This is the place for you to write reflections:
 
 1. **Subscriber as an Interface (Trait in Rust)** :
    <br>In the Observer pattern, `Subscriber` is often defined as an interface (or trait in Rust). However, in this project:
-   <br><br>
+   <br>
    - **The `Subscriber` struct only needs to store a `url` and `name`**, with no varying behaviors.
    - **Rust's type system ensures consistency** without requiring polymorphism.
    - **A trait would add unnecessary complexity** unless we need different subscriber types in the future.
    
-   <br>Conclusion : **A single Subscriber struct is sufficient.**
+   Conclusion : **A single Subscriber struct is sufficient.**
 
 
 2. **Using `Vec` vs. `DashMap` for Storing Subscribers** :
    <br>**The `id` in `Program` and `url` in `Subscriber` must be unique.**
-   <br><br>
+   <br>
 
    - **A `Vec` requires linear search (O(n)) for lookups**, which is inefficient for large datasets.
    - **`DashMap` provides constant-time (O(1)) operations and is thread-safe**, making it ideal for concurrent access.
    
-   <br>Conclusion : **`DashMap` is more efficient and necessary for this use case.**
+   Conclusion : **`DashMap` is more efficient and necessary for this use case.**
 
 
 3. **DashMap vs. Singleton Pattern** :
    <br>**The `SUBSCRIBERS` database uses `DashMap` for thread safety.**
-   <br><br>
+   <br>
 
    - **The Singleton pattern ensures a single instance** but does not guarantee thread safety without additional synchronization.
    - **`DashMap` is designed for concurrent access and handles thread safety internally**, simplifying implementation.
    
-   <br>Conclusion : **`DashMap` is a better choice than Singleton for managing `SUBSCRIBERS`.**
+   Conclusion : **`DashMap` is a better choice than Singleton for managing `SUBSCRIBERS`.**
 
 #### Reflection Publisher-2
+
+1. **Why Separate "Service" and "Repository" from the Model in MVC?**
+
+    Separating Service and Repository from the Model ensures adherence to design principles like Separation of Concerns and Single Responsibility . The Repository handles data storage, abstracting database interactions, while the Service manages business logic, orchestrating operations between models. This separation makes the codebase modular, reusable, and easier to maintain. For instance, switching databases or modifying business logic becomes simpler without affecting other layers. Without this separation, the Model would become bloated, handling both data and logic, leading to tightly coupled and hard-to-maintain code.
+
+    Additionally, separating these layers improves testability and scalability. Unit tests can focus on individual components (e.g., testing repositories for CRUD operations or services for business rules) without needing to mock the entire system. As the application grows, this modular structure ensures that new features can be added without disrupting existing functionality, making it ideal for large-scale projects.
+
+
+2. **What Happens If We Only Use the Model?**
+   
+    If we rely solely on the Model , it would handle both data storage and business logic, leading to tightly coupled and complex code. For example, the Program model might directly interact with the Subscriber model to notify users, and the Notification model might fetch product details from the Program model. This tight coupling increases code duplication and makes it harder to modify or extend individual models without affecting others. Testing also becomes challenging, as mocking database interactions within the Model is cumbersome.
+
+    Moreover, as the application scales, the Models would grow bloated, containing redundant logic and becoming difficult to debug or refactor. By introducing Service and Repository layers, we decouple responsibilities, reducing complexity and improving maintainability. Each layer focuses on a specific task, ensuring cleaner, more organized code.
+
+
+3. **Exploring Postman and Its Features**
+
+   Postman has been an invaluable tool for testing REST APIs in this project. It simplifies sending HTTP requests, allowing me to quickly test endpoints like /subscribe and /unsubscribe. Features like environment variables make it easy to manage configurations (e.g., base URLs), while collections help organize related requests for better workflow management. Automated scripts in Postman are particularly useful for validating responses and ensuring the API behaves as expected.
+
+    For group projects, Postman’s collaboration features, such as shared collections and workspaces, streamline teamwork by ensuring everyone uses the same test cases. I’m also interested in advanced features like mock servers for simulating API responses during frontend development and API documentation for communicating endpoint details with stakeholders. These tools will be helpful for future software engineering projects, enabling efficient API development and testing.
 
 #### Reflection Publisher-3
