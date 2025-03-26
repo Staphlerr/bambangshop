@@ -48,15 +48,15 @@ You can install Postman via this website: https://www.postman.com/downloads/
     (You might want to use `cargo check` if you only need to verify your work without running the app.)
 
 ## Mandatory Checklists (Publisher)
--   [ ] Clone https://gitlab.com/ichlaffterlalu/bambangshop to a new repository.
+-   [x] Clone https://gitlab.com/ichlaffterlalu/bambangshop to a new repository.
 -   **STAGE 1: Implement models and repositories**
-    -   [ ] Commit: `Create Subscriber model struct.`
-    -   [ ] Commit: `Create Notification model struct.`
-    -   [ ] Commit: `Create Subscriber database and Subscriber repository struct skeleton.`
-    -   [ ] Commit: `Implement add function in Subscriber repository.`
-    -   [ ] Commit: `Implement list_all function in Subscriber repository.`
-    -   [ ] Commit: `Implement delete function in Subscriber repository.`
-    -   [ ] Write answers of your learning module's "Reflection Publisher-1" questions in this README.
+    -   [x] Commit: `Create Subscriber model struct.`
+    -   [x] Commit: `Create Notification model struct.`
+    -   [x] Commit: `Create Subscriber database and Subscriber repository struct skeleton.`
+    -   [x] Commit: `Implement add function in Subscriber repository.`
+    -   [x] Commit: `Implement list_all function in Subscriber repository.`
+    -   [x] Commit: `Implement delete function in Subscriber repository.`
+    -   [x] Write answers of your learning module's "Reflection Publisher-1" questions in this README.
 -   **STAGE 2: Implement services and controllers**
     -   [ ] Commit: `Create Notification service struct skeleton.`
     -   [ ] Commit: `Implement subscribe function in Notification service.`
@@ -77,6 +77,35 @@ This is the place for you to write reflections:
 ### Mandatory (Publisher) Reflections
 
 #### Reflection Publisher-1
+
+1. **Subscriber as an Interface (Trait in Rust)** :
+   <br>In the Observer pattern, `Subscriber` is often defined as an interface (or trait in Rust). However, in this project:
+   <br><br>
+   - **The `Subscriber` struct only needs to store a `url` and `name`**, with no varying behaviors.
+   - **Rust's type system ensures consistency** without requiring polymorphism.
+   - **A trait would add unnecessary complexity** unless we need different subscriber types in the future.
+   
+   <br>Conclusion : **A single Subscriber struct is sufficient.**
+
+
+2. **Using `Vec` vs. `DashMap` for Storing Subscribers** :
+   <br>**The `id` in `Program` and `url` in `Subscriber` must be unique.**
+   <br><br>
+
+   - **A `Vec` requires linear search (O(n)) for lookups**, which is inefficient for large datasets.
+   - **`DashMap` provides constant-time (O(1)) operations and is thread-safe**, making it ideal for concurrent access.
+   
+   <br>Conclusion : **`DashMap` is more efficient and necessary for this use case.**
+
+
+3. **DashMap vs. Singleton Pattern** :
+   <br>**The `SUBSCRIBERS` database uses `DashMap` for thread safety.**
+   <br><br>
+
+   - **The Singleton pattern ensures a single instance** but does not guarantee thread safety without additional synchronization.
+   - **`DashMap` is designed for concurrent access and handles thread safety internally**, simplifying implementation.
+   
+   <br>Conclusion : **`DashMap` is a better choice than Singleton for managing `SUBSCRIBERS`.**
 
 #### Reflection Publisher-2
 
